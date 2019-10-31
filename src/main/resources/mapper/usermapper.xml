@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hsds.demo.mapper.UserMapper">
+    <sql id="Base_Colum_List">
+        user_id,user_account,user_pwd,user_name,flag
+
+    </sql>
+
+<!--    <select id="hello" parameterType="map" resultType="com.hsds.demo.model.User">-->
+<!--        select <include refid="Base_Colum_List"></include>-->
+<!--        from user-->
+<!--    </select>-->
+
+<!--    <select id="userList" parameterType="map" resultType="com.hsds.demo.model.User">-->
+<!--        select <include refid="Base_Colum_List"></include>-->
+<!--        from user-->
+<!--    </select>-->
+
+<!--    <select id="findUser" resultType="com.hsds.demo.model.User">-->
+<!--        select * from user where user_account = #{user_account}-->
+<!--    </select>-->
+
+<!--    <insert id="register" parameterType="com.hsds.demo.model.User">-->
+<!--        insert into user (user_account,user_pwd,user_name) values (#{user_account},#{user_pwd},#{user_name})-->
+<!--    </insert>-->
+
+    <select id="find_pwd" parameterType="string" resultType="string">
+        select user_pwd from user where user_account=#{user_account} and flag = 0
+    </select>
+
+    <select id="find_account" parameterType="string" resultType="string">
+        select user_account from user where user_account=#{user_account} and  flag = 0
+    </select>
+
+    <insert id="insert_user" parameterType="com.hsds.demo.model.User">
+        insert into user ( user_account,user_pwd,user_name )values(#{user_account},#{user_pwd},#{user_name})
+    </insert>
+
+        <select id="find_all_user" parameterType="map" resultType="com.hsds.demo.model.User">
+            select <include refid="Base_Colum_List"></include>
+            from user where flag = 0
+        </select>
+
+    <select id="find_manager" parameterType="map" resultType="com.hsds.demo.model.User">
+        select <include refid="Base_Colum_List"></include>
+        from user where flag = 0
+    </select>
+
+    <select id="find_manager_one" parameterType="map" resultType="com.hsds.demo.model.User">
+        select <include refid="Base_Colum_List"></include>
+        from user where flag = 1 and user_account = #{user_account}
+    </select>
+
+    <delete id="delete_user" parameterType="string">
+        delete from user where user_id=#{user_id,jdbcType=INTEGER}
+    </delete>
+
+    <update id="update_user" parameterType="com.hsds.demo.model.User">
+        update user
+        <set>
+            <if test="user_name != null and user_name!=''">user_name = #{user_name,jdbcType=VARCHAR},</if>
+            <if test="user_pwd != null and user_pwd!=''">user_pwd = #{user_pwd,jdbcType=VARCHAR},</if>
+            <if test="user_account != null and user_account!=''">user_account = #{user_account,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where user_id = #{user_id,jdbcType=INTEGER}
+    </update>
+
+
+
+</mapper>
